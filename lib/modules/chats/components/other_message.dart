@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:social_app/modules/chats/my_audio_message.dart';
-
-import '../../layout/cubit/layout_cubit.dart';
-import '../../models/message_model.dart';
+import '../../../models/message_model.dart';
+import 'my_audio_message.dart';
 
 class OtherMessage extends StatelessWidget {
   MessageModel message;

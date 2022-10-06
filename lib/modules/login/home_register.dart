@@ -190,7 +190,7 @@ class _HomeRegisterState extends State<HomeRegister> {
                                               phone: phoneController.text);
                                         }
                                       },
-                                      child: const Text('LOGIN',style:TextStyle(color: Colors.white,fontSize: 20),),
+                                      child: const Text('Register',style:TextStyle(color: Colors.white,fontSize: 20),),
 
                                     ),
                                   ),

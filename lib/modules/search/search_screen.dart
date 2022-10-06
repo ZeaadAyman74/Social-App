@@ -1,13 +1,13 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:social_app/layout/cubit/layout_cubit.dart';
 import 'package:social_app/models/user_model.dart';
-import 'package:social_app/modules/chats/chat_item.dart';
+import 'package:social_app/modules/chats/chat_cubit/chat_cubit.dart';
+import 'package:social_app/modules/chats/components/chat_item.dart';
 import '../../shared/styles/colors.dart';
 
 class SearchScreen extends StatefulWidget {
-  SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -24,14 +24,14 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    LayoutCubit.get(context).getAllUsers();
+    ChatCubit.get(context).getAllUsers();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     if (allData.isEmpty) {
-      allData = LayoutCubit.get(context).allUsers;
+      allData =ChatCubit.get(context).allUsers;
     }
     return SafeArea(
       child: Scaffold(
@@ -117,55 +117,55 @@ class _SearchScreenState extends State<SearchScreen> {
                     itemBuilder: (context, index) =>
                         ChatItem(searchList[index],searchItem: true),
                     separatorBuilder: (context, index) => const SizedBox(
-                          height: 20,
-                        ),
+                      height: 20,
+                    ),
                     itemCount: searchList.length),
                 fallback: (context) => searched
                     ? Center(
-                        child: Text(
-                              'User Not found',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                      )
+                  child: Text(
+                    'User Not found',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                )
                     : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Recent History',
-                                style: Theme.of(context).textTheme.caption,
-                              ),
-                              ListView.separated(
-                                  shrinkWrap: true,
-                                  physics:
-                                      const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) => Row(
-                                        children: [
-                                          // SvgPicture.asset('assets/icons/history.svg'),
-                                          const Icon(Icons
-                                              .history_toggle_off_rounded),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(searchHistory[index]),
-                                          const Spacer(),
-                                          const Icon(Icons.close_outlined)
-                                        ],
-                                      ),
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                  itemCount: searchHistory.length),
-                            ],
-                          ),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Recent History',
+                          style: Theme.of(context).textTheme.caption,
                         ),
-                      )),
+                        ListView.separated(
+                            shrinkWrap: true,
+                            physics:
+                            const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => Row(
+                              children: [
+                                // SvgPicture.asset('assets/icons/history.svg'),
+                                const Icon(Icons
+                                    .history_toggle_off_rounded),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(searchHistory[index]),
+                                const Spacer(),
+                                const Icon(Icons.close_outlined)
+                              ],
+                            ),
+                            separatorBuilder: (context, index) =>
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            itemCount: searchHistory.length),
+                      ],
+                    ),
+                  ),
+                )),
           ],
         ),
       ),

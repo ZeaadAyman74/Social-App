@@ -163,16 +163,6 @@ class _HomeLoginState extends State<HomeLogin> {
 
                                     ),
                                   ),
-                                      // MyButton(
-                                      // text: "LOGIN",
-                                      // height: height,
-                                      // function: (){
-                                      //   if (formKey.currentState!.validate()) {
-                                      //     cubit.loginUser(
-                                      //         email: emailController.text,
-                                      //         password: passController.text);
-                                      //   }
-                                      // }),
                                   fallback:(context)=> const Center(
                                     child: CircularProgressIndicator(),
                                   ),

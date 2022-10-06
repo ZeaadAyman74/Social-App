@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/layout_cubit.dart';
-import 'package:social_app/layout/cubit/layout_states.dart';
+import 'package:social_app/modules/edit_profile/cubit/edit_profile_cubit.dart';
+import 'package:social_app/modules/edit_profile/cubit/edit_profile_states.dart';
 import 'package:social_app/shared/components/components.dart';
 import 'package:social_app/shared/styles/colors.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
-
 import '../../models/user_model.dart';
 
 // ignore: must_be_immutable
@@ -34,7 +34,6 @@ class EditProfileScreen extends StatelessWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,23 +50,25 @@ class EditProfileScreen extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () {
-                LayoutCubit.get(context).updateUser(
+                EditProfileCubit.get(context).updateUser(
                     name: nameController.text,
                     phone: phoneController.text,
-                    bio: bioController.text);
+                    bio: bioController.text, context: context);
               },
               child: const Text("UPDATE"))
         ],
       ),
-      body: BlocConsumer<LayoutCubit, LayoutStates>(
+      body: BlocConsumer<EditProfileCubit, EditProfileStates>(
         listener: (context, state) {
           if(state is UserUpdateSuccessState){
             Navigator.pop(context);
           }
         },
         builder: (context, state) {
-          var cubit = LayoutCubit.get(context);
-          UserModel? model = cubit.userModel;
+          print("Edit Profile Screen");
+
+          var cubit = EditProfileCubit.get(context);
+          UserModel? model = LayoutCubit.get(context).userModel;
           nameController.text = model!.name!;
           bioController.text = model.bio!;
           phoneController.text = model.phone??'write a phone number';
@@ -173,7 +174,7 @@ class EditProfileScreen extends StatelessWidget {
                                         cubit.uploadProfileImage(
                                             name: nameController.text,
                                             phone: phoneController.text,
-                                            bio: bioController.text);
+                                            bio: bioController.text, context: context);
                                       })),
                             const SizedBox(
                               width: 15,
@@ -187,7 +188,7 @@ class EditProfileScreen extends StatelessWidget {
                                         cubit.uploadCoverImage(
                                             name: nameController.text,
                                             phone: phoneController.text,
-                                            bio: bioController.text);
+                                            bio: bioController.text, context: context);
                                       })),
                           ],
                         ),

@@ -1,16 +1,15 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_app/layout/cubit/layout_cubit.dart';
-import 'package:social_app/layout/cubit/layout_states.dart';
-import 'package:social_app/modules/feeds/comments/comment_item.dart';
+import 'package:social_app/modules/comments/cubit/comments_cubit.dart';
+import 'package:social_app/modules/comments/cubit/comments_states.dart';
 import '../../../shared/styles/colors.dart';
 import '../../../shared/styles/icon_broken.dart';
+import 'comment_item.dart';
 
 class CommentScreen extends StatelessWidget {
-  String postId;
-   CommentScreen({Key? key,required this.postId}) : super(key: key);
-   
+ final String postId;
+ const  CommentScreen({Key? key,required this.postId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +18,10 @@ class CommentScreen extends StatelessWidget {
     final width=size.width;
 
     var controller=TextEditingController();
-    return BlocConsumer<LayoutCubit,LayoutStates>(
-      listener: (context, state) {},
+    return BlocBuilder<CommentsCubit,CommentsStates>(
       builder: (context, state) {
-        var cubit=LayoutCubit.get(context);
+        print("Comments Screen");
+        var cubit=CommentsCubit.get(context);
             return Padding(
               padding: EdgeInsets.only(top: 8,  right: 8,  left: 8,
                   bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -39,10 +38,10 @@ class CommentScreen extends StatelessWidget {
                             physics: const BouncingScrollPhysics(),
                               itemBuilder: (context, index) => CommentItem(model: cubit.comments[index],height: height,width: width),
                               separatorBuilder:(context, index) =>const SizedBox(height: 20,),
-                              itemCount: LayoutCubit.get(context).comments.length),
+                              itemCount: CommentsCubit.get(context).comments.length),
                         );
                       },
-                      fallback:(context)=> const Center(child: Text('No Comments'),),
+                      fallback:(context)=> const Expanded(child: Center(child: Text('No Comments',style: TextStyle(fontSize: 20),),)),
                     ),
                     const Divider(
                       color: Colors.grey,
@@ -92,7 +91,7 @@ class CommentScreen extends StatelessWidget {
                                 splashColor: Colors.transparent,
                                 minWidth: 1,
                                 onPressed: () {
-                                  cubit.addComment(postId, controller.text);
+                                  cubit.addComment(postId, controller.text,context);
                                   controller.clear();
                                 },
                                 child: const Icon(

@@ -6,6 +6,11 @@ import 'package:social_app/modules/new_post/post_screen.dart';
 import 'package:social_app/modules/search/search_screen.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
 
+import '../modules/chats/chats_screen.dart';
+import '../modules/feeds/feeds_screen.dart';
+import '../modules/profile/profile_screen.dart';
+import '../modules/users/users_screen.dart';
+
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({Key? key}) : super(key: key);
   static String route = 'layout_screen';
@@ -15,6 +20,34 @@ class LayoutScreen extends StatefulWidget {
 }
 
 class _LayoutScreenState extends State<LayoutScreen> {
+
+  int _currentIndex = 0;
+  List<Widget> screens = [
+    FeedsScreen(),
+     const ChatsScreen(),
+    PostScreen(),
+    const UsersScreen(),
+    const ProfileScreen(),
+  ];
+  List<Widget> titles = [
+    const Text('Home'),
+    const Text('Chats'),
+    const Text('Post'),
+    const Text('User'),
+    const Text('Profile'),
+  ];
+
+  _onTap(int index,BuildContext context){
+    setState((){
+      if(index==2){
+        Navigator.push(context,MaterialPageRoute(builder: (_)=>PostScreen()));
+      }else{
+        _currentIndex=index;
+      }
+
+    });
+  }
+
   void fetchData() async {
     await LayoutCubit.get(context).getUserData();
     await LayoutCubit.get(context).getAllPosts();
@@ -31,19 +64,9 @@ class _LayoutScreenState extends State<LayoutScreen> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-
-    return BlocConsumer<LayoutCubit, LayoutStates>(
-      listener: (context, state) {
-        if (state is NewPostState) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => PostScreen()));
-        }
-      },
-      builder: (context, state) {
-        var cubit = LayoutCubit.get(context);
         return Scaffold(
           appBar: AppBar(
-            title: cubit.titles[cubit.currentIndex],
+            title: titles[_currentIndex],
             actions: [
               const Icon(IconBroken.Notification),
               SizedBox(
@@ -53,7 +76,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                 icon: const Icon(IconBroken.Search),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SearchScreen()));
+                      MaterialPageRoute(builder: (context) => const SearchScreen()));
                 },
               ),
               SizedBox(
@@ -61,16 +84,13 @@ class _LayoutScreenState extends State<LayoutScreen> {
               ),
             ],
           ),
-          body: IndexedStack(
-            index: cubit.currentIndex,
-            children: cubit.screens,
-          ),
+          body: screens[_currentIndex],
           bottomNavigationBar: BottomNavigationBar(
-              currentIndex: cubit.currentIndex,
+              currentIndex: _currentIndex,
               onTap: (index) {
-                cubit.changeBottomNavBar(index);
+                _onTap(index,context);
               },
-              items: const [
+              items: const[
                 BottomNavigationBarItem(
                   icon: Icon(IconBroken.Home),
                   label: "Home",
@@ -91,7 +111,5 @@ class _LayoutScreenState extends State<LayoutScreen> {
                     icon: Icon(IconBroken.Profile), label: "Profile"),
               ]),
         );
-      },
-    );
   }
 }

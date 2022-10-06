@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:social_app/modules/chats/my_audio_message.dart';
-import '../../models/message_model.dart';
+import '../../../models/message_model.dart';
+import 'my_audio_message.dart';
 
 class MyMessage extends StatelessWidget {
   MessageModel message;
@@ -18,7 +18,15 @@ class MyMessage extends StatelessWidget {
             topEnd: Radius.circular(10),
             bottomStart: Radius.circular(10),
           ),
-          color: Colors.blue.withOpacity(.5),
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+            colors: [
+              Colors.purpleAccent[400]!.withOpacity(.6),
+              Colors.deepPurple.withOpacity(.6),
+            ],
+          ),
+        //  color: Colors.blue.withOpacity(.5),
         ),
         padding: const EdgeInsets.symmetric(
           horizontal: 10,

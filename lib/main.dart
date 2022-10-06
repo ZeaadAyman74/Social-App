@@ -1,21 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/layout_cubit.dart';
 import 'package:social_app/layout/layout_screen.dart';
-import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/modules/chats/chat_cubit/chat_cubit.dart';
+import 'package:social_app/modules/comments/cubit/comments_cubit.dart';
+import 'package:social_app/modules/edit_profile/cubit/edit_profile_cubit.dart';
+import 'package:social_app/modules/new_post/cubit/new_post_cubit.dart';
+import 'package:social_app/modules/profile/cubit/profile_cubit.dart';
 import 'package:social_app/shared/components/constants.dart';
-import 'package:social_app/shared/cubit/social_cubit.dart';
-import 'package:social_app/shared/cubit/social_states.dart';
 import 'package:social_app/shared/network/local/cache_helper.dart';
-import 'package:social_app/shared/network/remote/dio_helper.dart';
 import 'package:social_app/shared/styles/themes.dart';
 import 'cubit_observer.dart';
 import 'modules/login/cubit/cubit.dart';
 import 'modules/login/home_login.dart';
-import 'modules/login/login_screen.dart';
 
 // Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   print('on background message');
@@ -46,21 +45,19 @@ void main() async {
 
   Widget startWidget;
   bool? isDark = CacheHelper.getData(key: 'isDark');
-  uId=CacheHelper.getData(key: 'uId');
-    if (uId != null) {
-      startWidget =  const LayoutScreen();
-      if (kDebugMode) {
-        print('$uId');
-      }
-    } else {
-      startWidget = const HomeLogin();
+  uId = CacheHelper.getData(key: 'uId');
+  if (uId != null) {
+    startWidget = const LayoutScreen();
+    if (kDebugMode) {
+      print('$uId');
     }
+  } else {
+    startWidget = const HomeLogin();
+  }
   BlocOverrides.runZoned(() => runApp(MyApp(isDark, startWidget)),
       blocObserver: AppBlocObserver());
-
 }
 
-// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   bool? isDark;
   Widget startsWidget;
@@ -70,32 +67,37 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => SocialCubit()..changeMode(isDark: isDark),
-          ),
-          BlocProvider(
-              create:(context)=>LayoutCubit(),
-          ),
-          BlocProvider(
-            create:(context)=>LoginCubit(),
-          ),
+      providers: [
+        BlocProvider(
+          create: (context) => LayoutCubit(),
+        ),
+        BlocProvider(
+          create: (context) => LoginCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ChatCubit(),
+        ),
+        BlocProvider(
+            create: (context) => CommentsCubit()
+        ),
+        BlocProvider(create: (context)=>ProfileCubit()
+        ),
+        BlocProvider(create: (context)=>EditProfileCubit()),
 
-        ],
-        child: BlocConsumer<SocialCubit, SocialStates>(
-          listener: (context, state) {},
-          builder: (context, state) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: SocialCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-            //initialRoute: ,
-           // routes:myRoutes(),
-            home:  Directionality(
-              textDirection: TextDirection.ltr,
-              child:startsWidget,
-            ),
-          ),
-        ));
+        BlocProvider(create: (context)=>NewPostCubit()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: ThemeMode.light,
+        //initialRoute: ,
+        // routes:myRoutes(),
+        home: Directionality(
+          textDirection: TextDirection.ltr,
+          child: startsWidget,
+        ),
+      ),
+    );
   }
 }

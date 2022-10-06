@@ -105,8 +105,8 @@ class LoginCubit extends Cubit<LoginStates> {
       phone: phone,
       uId: uId,
       isEmailVerified: false,
-      image:image?? 'https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/274880215_2117840785046945_8522829344125607352_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=V1jJmk97SBoAX8oIZKb&tn=A_MaB1Q5nNywYMrJ&_nc_ht=scontent.fcai20-3.fna&oh=00_AT9Os79Mr5b91nhgX9C8Pqf7xq8oDHMFeKaEVV6hqznqVA&oe=62F611EE',
-      cover:cover?? 'https://image.freepik.com/free-photo/horizontal-shot-smiling-curly-haired-woman-indicates-free-space-demonstrates-place-your-advertisement-attracts-attention-sale-wears-green-turtleneck-isolated-vibrant-pink-wall_273609-42770.jpg',
+      image:image,
+      cover:cover,
       bio: 'write your bio ...',
     );
     await FirebaseFirestore.instance.collection('users').doc(uId).set(userData.toMap()).then((value) {

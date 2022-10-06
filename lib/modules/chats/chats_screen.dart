@@ -1,9 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_app/layout/cubit/layout_cubit.dart';
-import 'package:social_app/layout/cubit/layout_states.dart';
-import 'package:social_app/modules/chats/chat_item.dart';
+import 'package:social_app/modules/chats/chat_cubit/chat_cubit.dart';
+import 'package:social_app/modules/chats/chat_cubit/chat_states.dart';
+import 'package:social_app/modules/chats/components/chat_item.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({Key? key}) : super(key: key);
@@ -16,28 +16,31 @@ class ChatsScreen extends StatefulWidget {
 
 class _ChatsScreenState extends State<ChatsScreen> {
   fetchUsers() async {
-    await LayoutCubit.get(context).getAllUsers();
+    await ChatCubit.get(context).getAllUsers();
     }
 
   @override
   void initState() {
     fetchUsers();
+    print("fetch user /////////////////////////////");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LayoutCubit, LayoutStates>(
-      listener: (context, state) {},
+    return BlocBuilder<ChatCubit, ChatStates>(
+      buildWhen: (previous, current) => (current is GetAllUsersSuccessState),
       builder: (context, state) {
+        var cubit=ChatCubit.get(context);
+        print("Chats Screen");
         return ConditionalBuilder(
-          condition: LayoutCubit.get(context).allUsers.isNotEmpty,
+          condition: cubit.allUsers.isNotEmpty,
           builder: (context) => ListView.separated(
-              itemBuilder: (context, index) => ChatItem(LayoutCubit.get(context).allUsers[index]),
+              itemBuilder: (context, index) => ChatItem(ChatCubit.get(context).allUsers[index]),
               separatorBuilder: (context, index) => const SizedBox(
                     height: 15,
                   ),
-              itemCount: LayoutCubit.get(context).allUsers.length),
+              itemCount:cubit.allUsers.length),
           fallback: (context) => const Center(
             child: CircularProgressIndicator(),
           ),

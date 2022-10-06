@@ -17,13 +17,10 @@ class ChatItem extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [
-            Hero(
-              tag: 'chatImage',
-              child: CircleAvatar(
-                radius: 27,
-                backgroundImage: NetworkImage(
-                    user.image!
-                ),
+            CircleAvatar(
+            radius: 27,
+            backgroundImage: NetworkImage(
+                user.image!
               ),
             ),
             const SizedBox(

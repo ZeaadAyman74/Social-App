@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/layout_cubit.dart';
 import 'package:social_app/layout/cubit/layout_states.dart';
-import 'package:social_app/modules/feeds/feeds_details.dart';
+import 'components/feeds_details.dart';
 
 class FeedsScreen extends StatelessWidget {
   FeedsScreen({Key? key}) : super(key: key);
@@ -17,13 +17,14 @@ class FeedsScreen extends StatelessWidget {
     final screenWidth = size.width;
 
     return BlocConsumer<LayoutCubit, LayoutStates>(
+      buildWhen: (previous, current) => (current is GetPostsSuccessState||current is GetPostsLoadingState ||current is NewPostCreatedState),
       listener: (context, state) {},
       builder: (context, state) {
+        print("$state ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         var cubit = LayoutCubit.get(context);
         return ConditionalBuilder(
           condition: cubit.posts.isNotEmpty && cubit.postsId.isNotEmpty,
           builder: (context) {
-            print("$state ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             return RefreshIndicator(
               key: refreshKey,
               onRefresh: () {
@@ -61,31 +62,3 @@ class FeedsScreen extends StatelessWidget {
     );
   }
 }
-
-// Card(
-// elevation: 5.0,
-// clipBehavior: Clip.antiAliasWithSaveLayer,
-// margin: const EdgeInsetsDirectional.all(7),
-// child: Stack(
-// alignment: AlignmentDirectional.bottomEnd,
-// children: [
-// const Image(
-// image: NetworkImage(
-// 'https://image.freepik.com/free-photo/horizontal-shot-smiling-curly-haired-woman-indicates-free-space-demonstrates-place-your-advertisement-attracts-attention-sale-wears-green-turtleneck-isolated-vibrant-pink-wall_273609-42770.jpg'),
-// ),
-// Padding(
-// padding: const EdgeInsets.all(5),
-// child: Text(
-// "communicate with friends",
-// style: Theme.of(context)
-// .textTheme
-//     .subtitle1
-//     ?.copyWith(color: Colors.white),
-// ),
-// ),
-// ],
-// ),
-// ),
-// SizedBox(
-// height: 0.016 * screenHeight,
-// ),

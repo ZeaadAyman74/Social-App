@@ -4,11 +4,7 @@ import '../../layout/layout_screen.dart';
 import '../../modules/chats/chats_screen.dart';
 import '../../modules/edit_profile/edit_profile_screen.dart';
 import '../../modules/feeds/feeds_screen.dart';
-import '../../modules/login/login_screen.dart';
-import '../../modules/new_post/post_screen.dart';
 import '../../modules/notifications/notifications_screen.dart';
-import '../../modules/register/register_screen.dart';
-import '../../modules/search/search_screen.dart';
 import '../../modules/users/users_screen.dart';
 
 String? token;

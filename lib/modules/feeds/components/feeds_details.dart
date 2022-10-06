@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:social_app/layout/cubit/layout_cubit.dart';
 import 'package:social_app/models/post_model.dart';
-import 'package:social_app/modules/feeds/comments/comment_screen.dart';
-import 'package:social_app/modules/feeds/video_item.dart';
+import 'package:social_app/modules/comments/cubit/comments_cubit.dart';
+import 'package:social_app/modules/feeds/components/video_item.dart';
 import 'package:video_player/video_player.dart';
-import '../../shared/styles/icon_broken.dart';
+import '../../../shared/styles/icon_broken.dart';
+import '../../comments/comment_screen.dart';
 
 class PostItem extends StatelessWidget {
   PostModel model;
@@ -143,13 +144,12 @@ class PostItem extends StatelessWidget {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      LayoutCubit.get(context)
+                      CommentsCubit.get(context)
                           .getComments(LayoutCubit.get(context).postsId[index]);
                       showModalBottomSheet(
                           builder: (context) => CommentScreen(
                               postId: LayoutCubit.get(context).postsId[index]),
                           context: context,
-                          isScrollControlled: true,
                           elevation: 10,
                           shape:const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
@@ -191,25 +191,19 @@ class PostItem extends StatelessWidget {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      LayoutCubit.get(context).getComments(LayoutCubit.get(context).postsId[index]);
-                      Scaffold.of(context).showBottomSheet((context) =>CommentScreen(postId: LayoutCubit.get(context).postsId[index]),
-                        shape:   const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                               topLeft: Radius.circular(15),topRight:  Radius.circular(15),
-                             )
-                           ));
-                    //   showModalBottomSheet(
-                    //     builder: (context) => CommentScreen(
-                    //         postId: LayoutCubit.get(context).postsId[index]),
-                    //     context: context,
-                    //     isScrollControlled: true,
-                    //     elevation: 10,
-                    // shape:const RoundedRectangleBorder(
-                    //   borderRadius: BorderRadius.only(
-                    //     topLeft: Radius.circular(15),topRight:  Radius.circular(15),
-                    //   )
-                    // )
-                    //   );
+                      CommentsCubit.get(context)
+                          .getComments(LayoutCubit.get(context).postsId[index]);
+                      showModalBottomSheet(
+                          builder: (context) => CommentScreen(
+                              postId: LayoutCubit.get(context).postsId[index]),
+                          context: context,
+                          elevation: 10,
+                          shape:const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),topRight:  Radius.circular(15),
+                              )
+                          )
+                      );
                     },
                     child: Row(
                       children: [
