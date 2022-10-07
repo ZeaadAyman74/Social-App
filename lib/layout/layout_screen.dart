@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/layout_cubit.dart';
-import 'package:social_app/layout/cubit/layout_states.dart';
 import 'package:social_app/modules/new_post/post_screen.dart';
 import 'package:social_app/modules/search/search_screen.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
-
 import '../modules/chats/chats_screen.dart';
 import '../modules/feeds/feeds_screen.dart';
 import '../modules/profile/profile_screen.dart';
@@ -20,11 +17,10 @@ class LayoutScreen extends StatefulWidget {
 }
 
 class _LayoutScreenState extends State<LayoutScreen> {
-
   int _currentIndex = 0;
   List<Widget> screens = [
     FeedsScreen(),
-     const ChatsScreen(),
+    const ChatsScreen(),
     PostScreen(),
     const UsersScreen(),
     const ProfileScreen(),
@@ -37,19 +33,19 @@ class _LayoutScreenState extends State<LayoutScreen> {
     const Text('Profile'),
   ];
 
-  _onTap(int index,BuildContext context){
-    setState((){
-      if(index==2){
-        Navigator.push(context,MaterialPageRoute(builder: (_)=>PostScreen()));
-      }else{
-        _currentIndex=index;
+  _onTap(int index, BuildContext context) {
+    setState(() {
+      if (index == 2) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => PostScreen()));
+      } else {
+        _currentIndex = index;
       }
-
     });
   }
 
   void fetchData() async {
-    await LayoutCubit.get(context).getUserData();
+    await LayoutCubit.get(context).getMyData();
     await LayoutCubit.get(context).getAllPosts();
   }
 
@@ -63,53 +59,55 @@ class _LayoutScreenState extends State<LayoutScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final width = size.width;
-    final height = size.height;
-        return Scaffold(
-          appBar: AppBar(
-            title: titles[_currentIndex],
-            actions: [
-              const Icon(IconBroken.Notification),
-              SizedBox(
-                width: .01 * width,
-              ),
-              IconButton(
-                icon: const Icon(IconBroken.Search),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const SearchScreen()));
-                },
-              ),
-              SizedBox(
-                width: .008 * width,
-              ),
-            ],
+  //  final height = size.height;
+    return Scaffold(
+      appBar: AppBar(
+        title: titles[_currentIndex],
+        actions: [
+          const Icon(IconBroken.Notification),
+          SizedBox(
+            width: .01 * width,
           ),
-          body: screens[_currentIndex],
-          bottomNavigationBar: BottomNavigationBar(
-              currentIndex: _currentIndex,
-              onTap: (index) {
-                _onTap(index,context);
-              },
-              items: const[
-                BottomNavigationBarItem(
-                  icon: Icon(IconBroken.Home),
-                  label: "Home",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(IconBroken.Chat),
-                  label: "Chats",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(IconBroken.Paper_Upload),
-                  label: "Post",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(IconBroken.User1),
-                  label: "Users",
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(IconBroken.Profile), label: "Profile"),
-              ]),
-        );
+          IconButton(
+            icon: const Icon(IconBroken.Search),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SearchScreen()));
+            },
+          ),
+          SizedBox(
+            width: .008 * width,
+          ),
+        ],
+      ),
+      body: screens[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            _onTap(index, context);
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(IconBroken.Home),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(IconBroken.Chat),
+              label: "Chats",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(IconBroken.Paper_Upload),
+              label: "Post",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(IconBroken.User1),
+              label: "Users",
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(IconBroken.Profile), label: "Profile"),
+          ]),
+    );
   }
 }

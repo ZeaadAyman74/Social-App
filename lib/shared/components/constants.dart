@@ -9,7 +9,7 @@ import '../../modules/users/users_screen.dart';
 
 String? token;
 
-String? uId;
+late final String? uId;
 
 Map<String,Widget Function(BuildContext)> myRoutes(){
   return {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:social_app/models/user_model.dart';
 import 'package:social_app/modules/chats/chat_cubit/chat_cubit.dart';
-import 'package:social_app/modules/chats/components/chat_item.dart';
+import 'package:social_app/modules/search/user_item.dart';
 import '../../shared/styles/colors.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -115,13 +115,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) =>
-                        ChatItem(searchList[index],searchItem: true),
+                        UserItem(searchList[index]),
                     separatorBuilder: (context, index) => const SizedBox(
                       height: 20,
                     ),
                     itemCount: searchList.length),
-                fallback: (context) => searched
-                    ? Center(
+                fallback: (context) => searched ?
+                Center(
                   child: Text(
                     'User Not found',
                     style: Theme.of(context)

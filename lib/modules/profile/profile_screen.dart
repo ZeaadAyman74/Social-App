@@ -34,9 +34,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var cubit = ProfileCubit.get(context);
-    var size = MediaQuery.of(context).size;
-    double height = size.height;
-    double width = size.width;
+    final Size size = MediaQuery.of(context).size;
+    final  double height = size.height;
+    final double width = size.width;
     UserModel? model;
     return BlocConsumer<ProfileCubit, ProfileStates>(
       listener: (context, state) async{},

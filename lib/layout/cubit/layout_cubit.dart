@@ -13,7 +13,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
   static LayoutCubit get(BuildContext context) => BlocProvider.of(context);
 
   UserModel? userModel;
-  getUserData() async {
+  getMyData() async {
     emit(GetUserLoadingState());
     await FirebaseFirestore.instance
         .collection('users')
@@ -107,6 +107,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
       emit(GetPostsErrorState(error.toString()));
     });
   }
+
   void likePost(String postId, int index) {
     FirebaseFirestore.instance
         .collection('posts')

@@ -116,7 +116,7 @@ class EditProfileCubit extends Cubit<EditProfileStates>{
         .doc(LayoutCubit.get(context).userModel!.uId)
         .update(updateModel.toMap())
         .then((value)async{
-      await LayoutCubit.get(context).getUserData();
+      await LayoutCubit.get(context).getMyData();
       await ProfileCubit.get(context).updatePostsData(context);
       emit(UserUpdateSuccessState());
     }).catchError((error) {

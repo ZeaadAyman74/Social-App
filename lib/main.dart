@@ -15,6 +15,7 @@ import 'package:social_app/shared/styles/themes.dart';
 import 'cubit_observer.dart';
 import 'modules/login/cubit/cubit.dart';
 import 'modules/login/home_login.dart';
+import 'modules/user_profile/cubit/user_profile_cubit.dart';
 
 // Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   print('on background message');
@@ -85,6 +86,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>EditProfileCubit()),
 
         BlocProvider(create: (context)=>NewPostCubit()),
+
+        BlocProvider(create: (context)=>UserProfileCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
