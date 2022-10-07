@@ -124,48 +124,4 @@ class LayoutCubit extends Cubit<LayoutStates> {
   }
 
 
-
-// AudioPlayer audioPlayer = AudioPlayer();
-// bool isPlaying = false;
-// Duration duration = Duration.zero;
-// Duration position = Duration.zero;
-// IconData playerIcon = Icons.play_arrow;
-//
-// Future<void> play(String url) async {
-//   isPlaying = true;
-//   emit(PlayRecordState());
-//   await audioPlayer.play(
-//     UrlSource(url),
-//   );
-// }
-//
-// Future<void> stopPlayer() async {
-//   await audioPlayer.stop().then((value) {
-//     isPlaying = false;
-//     emit(PlayRecordState());
-//   });
-// }
-
-// getPosts() async {
-//   emit(GetPostsLoadingState());
-//   try{
-//     QuerySnapshot<Map<String,dynamic>> post=await FirebaseFirestore.instance.collection('posts').get();
-//     late QuerySnapshot like;
-//     post.docs.forEach((element)async {
-//       like= await element.reference.collection('likes').get();
-//       likes.add(like.docs.length);
-//       print('$likes  *********************');
-//       posts.add(PostModel.fromJson(element.data()));
-//       print('$posts ************************');
-//       postsId.add(element.id);
-//       print('$postsId  ****************************');
-//       if(posts.length==post.docs.length) {
-//         emit(GetPostsSuccessState());
-//       }
-//     });
-//   }catch(error){
-//     emit(GetPostsErrorState(error.toString()));
-//   }
-// }
-
 }
